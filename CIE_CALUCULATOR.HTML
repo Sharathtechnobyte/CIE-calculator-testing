@@ -1,0 +1,115 @@
+01.02 2:06 PM
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assessment Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input {
+            width: 100%;
+            border: none;
+            text-align: center;
+        }
+        #footer {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        #datetime {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        // Function to calculate marks
+        function calculateMarks(row) {
+            const ia1 = parseFloat(document.getElementById(`ia1-${row}`).value) || 0;
+            const ia2 = parseFloat(document.getElementById(`ia2-${row}`).value) || 0;
+            const ia3 = parseFloat(document.getElementById(`ia3-${row}`).value) || 0;
+            const improIA = parseFloat(document.getElementById(`improIA-${row}`).value) || 0;
+
+            // Calculate average of the best 2 IAs (scaled to 25 marks)
+            const best2Avg = Math.round(
+                (Math.max(ia1, ia2, ia3, improIA) +
+                    [ia1, ia2, ia3, improIA]
+                        .sort((a, b) => b - a)[1]) * 25 / 80
+            );
+
+            document.getElementById(`iaAvg-${row}`).value = best2Avg;
+
+            // Get other marks
+            const assessment1 = parseFloat(document.getElementById(`assessment1-${row}`).value) || 0;
+            const assessment2 = parseFloat(document.getElementById(`assessment2-${row}`).value) || 0;
+            const assessment = parseFloat(document.getElementById(`assessment-${row}`).value) || 0;
+
+            // Calculate CIE
+            const cie = best2Avg + assessment1 + assessment2 + assessment;
+            document.getElementById(`cie-${row}`).value = cie;
+        }
+
+        // Function to display real-time date and time
+        function updateDateTime() {
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString();
+            const formattedTime = now.toLocaleTimeString();
+            document.getElementById('datetime').textContent = `Date: ${formattedDate}, Time: ${formattedTime}`;
+        }
+
+        // Update date and time every second
+        setInterval(updateDateTime, 1000);
+    </script>
+</head>
+<body>
+    <h2>Assessment Table</h2>
+    <div id="datetime"></div>
+    <table>
+        <tr>
+            <th>IA 1 (40M)</th>
+            <th>IA 2 (40M)</th>
+            <th>IA 3 (40M)</th>
+            <th>Impro IA (40M)</th>
+            <th>IA Avg (25M)</th>
+            <th>Assessment-I (15M)</th>
+            <th>Assessment-II (10M)</th>
+            <th>Assessment (25M)</th>
+            <th>CIE (50M)</th>
+        </tr>
+        <tr>
+            <td><input id="ia1-1" type="number" oninput="calculateMarks(1)"></td>
+            <td><input id="ia2-1" type="number" oninput="calculateMarks(1)"></td>
+            <td><input id="ia3-1" type="number" oninput="calculateMarks(1)"></td>
+            <td><input id="improIA-1" type="number" oninput="calculateMarks(1)"></td>
+            <td><input id="iaAvg-1" type="number" readonly></td>
+            <td><input id="assessment1-1" type="number" oninput="calculateMarks(1)"></td>
+            <td><input id="assessment2-1" type="number" oninput="calculateMarks(1)"></td>
+            <td><input id="assessment-1" type="number" oninput="calculateMarks(1)"></td>
+            <td><input id="cie-1" type="number" readonly></td>
+        </tr>
+        <tr>
+            <td><input id="ia1-2" type="number" oninput="calculateMarks(2)"></td>
+            <td><input id="ia2-2" type="number" oninput="calculateMarks(2)"></td>
+            <td><input id="ia3-2" type="number" oninput="calculateMarks(2)"></td>
+            <td><input id="improIA-2" type="number" oninput="calculateMarks(2)"></td>
+            <td><input id="iaAvg-2" type="number" readonly></td>
+            <td><input id="assessment1-2" type="number" oninput="calculateMarks(2)"></td>
+            <td><input id="assessment2-2" type="number" oninput="calculateMarks(2)"></td>
+            <td><input id="assessment-2" type="number" oninput="calculateMarks(2)"></td>
+            <td><input id="cie-2" type="number" readonly></td>
+        </tr>
+    </table>
+    <div id="footer">
+        Created by: Sharath Techno Byte
+    </div>
+</body>
+</html>
